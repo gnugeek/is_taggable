@@ -41,6 +41,15 @@ Expectations do
     p = Post.new :language_list => "english, french"
     p.language_list.to_s
   end
+  
+  # added - should clean up strings with arbitrary spaces around commas
+  expect ["spaces","should","not","matter"] do
+    p = Post.new
+    p.tag_list = "spaces,should,  not,matter"
+    p.save!
+    p.tags.reload
+    p.tag_list
+  end
 
   expect 2 do
     p = Post.new :language_list => "english, french"

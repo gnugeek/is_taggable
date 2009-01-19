@@ -63,7 +63,8 @@ module IsTaggable
 
     module InstanceMethods
       def set_tag_list(kind, list)
-        tag_list = TagList.new(list.is_a?(Array) ? list : list.split(', '))
+        list.gsub!(/ *, */,',') unless list.is_a?(Array)
+        tag_list = TagList.new(list.is_a?(Array) ? list : list.split(','))
         instance_variable_set(tag_list_name_for_kind(kind), tag_list)
       end
 
