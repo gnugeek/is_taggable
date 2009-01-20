@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :posts do |t|
     t.string  :title, :default => ''
   end
-
+  
   create_table :tags do |t|
     t.string :name, :default => ''
     t.string :kind, :default => '' 
@@ -29,6 +29,6 @@ ActiveRecord::Schema.define(:version => 0) do
 end
 
 class Post < ActiveRecord::Base
-  is_taggable :tags, :languages
+  is_taggable :tags, :languages, :unique
 end
 

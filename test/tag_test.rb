@@ -32,4 +32,5 @@ Expectations do
   expect Tag.create!(:kind => "language", :name => "French") do
     Tag.of_kind("language").first
   end
+
 end

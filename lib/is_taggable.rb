@@ -33,20 +33,24 @@ module IsTaggable
           define_method("#{k}_list")  { get_tag_list(k) }
           define_method("#{k}_list=") { |new_list| set_tag_list(k, new_list) }
         end
-
+        
         # Find all records tagged with a +'tag'+ or ['tag one', 'tag two']
         # Pass either String for single tag or Array for multiple tags
         # TODO : Add option all x any
-        def self.find_all_tagged_with(tag_or_tags)
+        def self.find_all_tagged_with(tag_or_tags, conditions=[])
           return [] if tag_or_tags.nil? || tag_or_tags.empty?
           case tag_or_tags
           when Array, IsTaggable::TagList
-            all(:include => ['tags', 'taggings']).select { |record| tag_or_tags.all? { |tag| record.tags.map(&:name).include?(tag) } } || []
+            all(:include => ['tags', 'taggings'], :conditions => conditions ).select { |record| tag_or_tags.all? { |tag| record.tags.map(&:name).include?(tag) } } || []
           else
-            all(:include => ['tags', 'taggings']).select { |record| record.tags.map(&:name).include?(tag_or_tags)  } || []
+            all(:include => ['tags', 'taggings'], :conditions => conditions).select { |record| record.tags.map(&:name).include?(tag_or_tags)  } || []
           end
         end
-
+        
+        def self.find_all_ids_tagged_with(tag_or_tags, conditions=[])
+          find_all_tagged_with(tag_or_tags, conditions).map(&:id)
+        end
+        
         # Find all records tagged with the same tags as current object,
         # *excluding* the current object (for things like "Related articles")
         # TODO : Add option all x any
