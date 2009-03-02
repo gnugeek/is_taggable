@@ -41,9 +41,9 @@ module IsTaggable
           return [] if tag_or_tags.nil? || tag_or_tags.empty?
           case tag_or_tags
           when Array, IsTaggable::TagList
-            all(:include => ['tags', 'taggings'], :conditions => conditions ).select { |record| tag_or_tags.all? { |tag| record.tags.map(&:name).include?(tag) } } || []
+            all(:include => ['tags', 'taggings'], :conditions => conditions ).select { |record| tag_or_tags.all? { |tag| record.tags.map(&:name).map(&:upcase).include?(tag.upcase) } } || []
           else
-            all(:include => ['tags', 'taggings'], :conditions => conditions).select { |record| record.tags.map(&:name).include?(tag_or_tags)  } || []
+            all(:include => ['tags', 'taggings'], :conditions => conditions).select { |record| record.tags.map(&:name).map(&:upcase).include?(tag_or_tags.upcase)  } || []
           end
         end
         

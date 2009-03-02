@@ -4,3 +4,6 @@
 
 [0.0.1]
 * (05 Feb 2009) Gemified
+
+[0.0.2]
+* (02 Mar 2009) Made find_alls case insensitive
